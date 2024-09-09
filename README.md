@@ -50,6 +50,27 @@ Les principaux objectifs de ce projet sont les suivants :
 6. **Visualisation des Résultats** :  
    Les clusters sont visualisés à l'aide de divers graphiques (comme des graphiques en nuage de points 2D) pour mieux comprendre la distribution des segments de clients.
 
+7. **Maintenance de l'algorithme de clustering** :  
+Pour la maintenance, l’objectif était de savoir à quelle fréquence il fallait ré-entraîner le modèle. C’est à dire qu’on cherche à savoir à quel point le clustering réalisé à une       période de l’année correspond aux clustering réalisé à une autre période.
+Pour cela, on va comparer les clustering de modèles entraînés sur des périodes différentes.
+J’ai utilisé plusieurs fonctions pour réaliser cela, en incluant en leur sein des docstrings et des commentaires afin de respecter la convention PEP 8.
+- Création de DataFrames par Période : une première fonction est utilisée pour créer des DataFrames pour différentes périodes en spécifiant les dates de début et de fin. Cela permet de filtrer les données selon les périodes d'intérêt et de les analyser séparément.
+- Analyse RFM et Score Moyen de Revue par Période : une seconde fonction génère une analyse RFM ainsi que le score moyen de revue pour chaque DataFrame créé. L'analyse suit les mêmes principes que ceux décrits précédemment, permettant une comparaison cohérente des segments de clients sur différentes périodes.
+- Entraînement et Comparaison des Modèles K-means :  
+   Une boucle `for` est utilisée pour :
+   - Créer des DataFrames mensuels à partir des données disponibles jusqu'à janvier 2018, février 2018, etc.
+   - Effectuer une analyse RFM pour chaque DataFrame mensuel.
+   - Entraîner un modèle K-means avec 5 clusters pour chaque période.
+   - Réaliser des prédictions avec chaque modèle et comparer les résultats en utilisant l'Adjusted Rand Index (ARI).
+
+- Évaluation des Résultats : les scores ARI des modèles K-means pour chaque période sont analysés. On observe que la similitude entre les clusters diminue au fil des mois. Il est nécessaire de définir un seuil, par exemple un score ARI inférieur à 0.50, en dessous duquel le modèle est considéré comme non pertinent et doit être réentraîne. Dans ce cas, une réévaluation tous les 6 mois peut être envisagée.
+
+### Conclusion
+
+En conclusion, on a pu voir comment entraîner un modèle de clustering, en optimisant les hyperparamètres et en évaluant la qualité du clustering. On a pu visualiser les cluster et les interpréter pour comprendre les profils de clients que le modèle à créer.
+Pour la maintenance de l'algorithme de clustering, la similitude diminue au fur et à mesure des mois. Il faut décider d’un seuil en dessous duquel on considère que le clustering réalisé par le modèle n’est plus pertinent et doit être remis à jour. Par exemple si on considère qu’un score ARI inférieur à 0.50 est trop faible, on devrait ici ré-entraîner le modèle tous les 6 mois.
+
+
 ## Outils & Librairies
 
 - **Langage de programmation** : Python
