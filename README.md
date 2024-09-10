@@ -1,4 +1,5 @@
 # Projet 4 : Segmentation des Clients avec RFM et K-means
+*Certaines visualisations ont été omises dans les notebooks afin d'éviter de les rendre trop lourds et impossibles à uploader. Cependant, ces visualisations sont incluses dans la présentation.*
 
 ## Vue d'ensemble du projet
 
